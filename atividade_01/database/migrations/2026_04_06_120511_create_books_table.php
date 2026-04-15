@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('publisher_id');
+            $table->integer('publication_year')->nullable();
             $table->timestamps();
         });
     }
