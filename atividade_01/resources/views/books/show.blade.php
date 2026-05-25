@@ -24,6 +24,9 @@
                     {{ $book->category->name }}
                 </a>
             </p>
+            <p><strong>Capa:</strong>
+                <img src="{{ $book->cover_image ? asset('storage/' . $book->cover_image) : asset('images/default-cover.png') }}" alt="Capa do Livro" class="img-fluid">
+            </p>
         </div>
     </div>
 
