@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="my-4">Adicionar Livro (Com ID)</h1>
 
-    <form action="{{ route('books.store.id') }}" method="POST">
+    <form action="{{ route('books.store.id') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="title" class="form-label">Título</label>
@@ -15,6 +15,16 @@
                 </div>
             @enderror
         </div>
+
+            <div class="mb-3">
+                <label for="pages" class="form-label">Número de Páginas</label>
+                <input type="number" class="form-control @error('pages') is-invalid @enderror" id="pages" name="pages" required>
+                @error('pages')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
 
         <div class="mb-3">
             <label for="publisher_id" class="form-label">ID da Editora</label>
@@ -44,6 +54,11 @@
                     {{ $message }}
                 </div>
             @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="cover_image" class="form-label">Capa do Livro</label>
+            <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*">
         </div>
 
         <button type="submit" class="btn btn-success">Salvar</button>

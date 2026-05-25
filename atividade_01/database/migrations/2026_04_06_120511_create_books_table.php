@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('publisher_id');
             $table->integer('publication_year')->nullable();
+            $table->string('cover_image')->nullable(); // Campo para o caminho da imagem
             $table->timestamps();
         });
     }
