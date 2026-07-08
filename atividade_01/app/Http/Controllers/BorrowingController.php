@@ -27,6 +27,15 @@ class BorrowingController extends Controller
 
     /**
      * Store a newly created resource in storage.
+      $openLoan = $book->loans()
+    ->whereNull('return_date')
+    ->exists();
+
+if ($openLoan) {
+    return redirect()
+        ->back()
+        ->with('error', 'Este livro já está emprestado.');
+}
      */
     public function store(Request $request, Book $book)
     {
@@ -34,6 +43,18 @@ class BorrowingController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
+        // Check if the book is already borrowed
+        $borrowedBook = Borrowing::where('book_id', $book->id)
+            ->whereNull('returned_at')
+            ->first();
+
+        if ($borrowedBook) {
+            return redirect()
+                ->back()
+                ->with('error', 'Este livro já está emprestado.');
+        }
+
+        // Create a new borrowing record
         Borrowing::create([
             'user_id' => $request->user_id,
             'book_id' => $book->id,

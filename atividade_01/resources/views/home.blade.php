@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container">
+    <a class="btn btn-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        Logout
+    </a>    
+    <form id="logout-form" action="{{ route('logout') }}"
+          method="POST"
+          class="d-none">
+        @csrf
+    </form>
+    
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
