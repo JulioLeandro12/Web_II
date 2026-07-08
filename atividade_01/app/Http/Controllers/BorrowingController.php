@@ -54,6 +54,17 @@ if ($openLoan) {
                 ->with('error', 'Este livro já está emprestado.');
         }
 
+        // Check if the user has already borrowed 5 books
+        $borrowedBooks = Borrowing::where('user_id', $request->user_id)
+            ->whereNull('returned_at')
+            ->count();
+
+        if ($borrowedBooks >= 5) {
+            return redirect()
+                     ->back()
+                     ->with('error', 'Este usuário já possui o limite máximo de 5 livros emprestados.');
+        }
+
         // Create a new borrowing record
         Borrowing::create([
             'user_id' => $request->user_id,
