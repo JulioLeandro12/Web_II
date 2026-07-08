@@ -22,6 +22,11 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+    const ADMIN = 'admin';
+    const BIBLIOTECARIO = 'bibliotecario';
+    const CLIENTE = 'cliente';
+
     protected function casts(): array
     {
         return [
@@ -35,6 +40,21 @@ class User extends Authenticatable
         return $this->belongsToMany(Book::class, 'borrowings')
                     ->withPivot('id', 'borrowed_at', 'returned_at')
                     ->withTimestamps();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ADMIN;
+    }
+
+    public function isBibliotecario(): bool
+    {
+        return $this->role === self::BIBLIOTECARIO;
+    }
+
+    public function isCliente(): bool
+    {
+        return $this->role === self::CLIENTE;
     }
 }
 

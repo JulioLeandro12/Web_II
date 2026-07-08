@@ -10,12 +10,20 @@
         </div>
     @endif
 
-    <a href="{{ route('books.create.id') }}" class="btn btn-success mb-3">
+    @can('create', App\Models\Book::class)
+        <a href="{{ route('books.create.id') }}" class="btn btn-success mb-3">
+            <i class="bi bi-plus"></i> Adicionar Livro (Com ID)
+        </a>
+        <a href="{{ route('books.create.select') }}" class="btn btn-primary mb-3">
+            <i class="bi bi-plus"></i> Adicionar Livro (Com Select)
+        </a>
+    @endcan
+    <!-- <a href="{{ route('books.create.id') }}" class="btn btn-success mb-3">
         <i class="bi bi-plus"></i> Adicionar Livro (Com ID)
     </a>
     <a href="{{ route('books.create.select') }}" class="btn btn-primary mb-3">
         <i class="bi bi-plus"></i> Adicionar Livro (Com Select)
-    </a>
+    </a> -->
 
     <table class="table table-striped">
         <thead>
@@ -42,19 +50,23 @@
                             <i class="bi bi-eye"></i> Visualizar
                         </a>
 
-                        <!-- Botão de Editar -->
-                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary btn-sm">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
+                        @can('update', $book)
+                            <!-- Botão de Editar -->
+                            <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                        @endcan
 
-                        <!-- Botão de Deletar -->
-                        <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('Deseja excluir este livro?')">
-                                <i class="bi bi-trash"></i> Deletar
-                            </button>
-                        </form>
+                        @can('delete', $book)
+                            <!-- Botão de Deletar -->
+                            <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Deseja excluir este livro?')">
+                                    <i class="bi bi-trash"></i> Deletar
+                                </button>
+                            </form>
+                        @endcan
                     </td>
                 </tr>
             @empty

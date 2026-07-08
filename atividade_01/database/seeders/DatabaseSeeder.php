@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             AuthorPublisherBookSeeder::class,
-            UserBorrowingSeeder::class, // novo seeder
+            UserBorrowingSeeder::class, // seed de usuários e empréstimos
+            AdminSeeder::class, // seed de administrador
         ]);
     }
 }

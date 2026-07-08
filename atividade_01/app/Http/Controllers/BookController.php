@@ -24,6 +24,8 @@ class BookController extends Controller
     // Formulário com input de ID
     public function createWithId()
     {
+        $this->authorize('create', Book::class);
+
         return view('books.create-id');
     }
 
@@ -40,6 +42,8 @@ class BookController extends Controller
         // Book::create($request->all());
 
         // return redirect()->route('books.index')->with('success', 'Livro criado com sucesso.');
+
+        $this->authorize('create', Book::class);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -68,6 +72,8 @@ class BookController extends Controller
         $authors = Author::all();
         $categories = Category::all();
 
+        // $this->authorize('create', Book::class);
+
         return view('books.create-select', compact('publishers', 'authors', 'categories'));
     }
 
@@ -91,6 +97,8 @@ class BookController extends Controller
         // Book::create($request->all());
 
         // return redirect()->route('books.index')->with('success', 'Livro criado com sucesso.');
+
+        // $this->authorize('create', Book::class);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -133,6 +141,8 @@ class BookController extends Controller
 
         // return redirect()->route('books.index')->with('success', 'Livro atualizado com sucesso.');
 
+        $this->authorize('update', $book);
+        
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
@@ -171,6 +181,8 @@ class BookController extends Controller
 
     public function destroy(Book $book)
     {
+        $this->authorize('delete', $book);
+
         if ($book->cover_image) {
             Storage::disk('public')->delete($book->cover_image);
         }
