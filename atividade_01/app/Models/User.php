@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password','role','debit'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -56,5 +56,26 @@ class User extends Authenticatable
     {
         return $this->role === self::CLIENTE;
     }
+
+    // Add a method to check if the user has any debit
+    public function hasDebit(): bool
+    {
+        return $this->debit > 0;
+    }
+
+    // Add a method to add debit to the user
+    public function addDebit(float $value): void
+    {
+        $this->increment('debit', $value);
+    }
+
+    // Add a method to clear the user's debit
+    public function clearDebit(): void
+    {
+        $this->update([
+            'debit' => 0
+        ]);
+    }
+    
 }
 

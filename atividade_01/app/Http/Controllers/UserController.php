@@ -30,4 +30,31 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso.');
     }
 
+    // listar os usuários com débitos
+    public function debts()
+    {
+        $this->authorize('manageDebits', User::class);
+
+        $users = User::where('debit', '>', 0)
+            ->orderBy('name')
+            ->get();
+
+        return view('users.debts', compact('users'));
+        // return var_dump($users); // Apenas para depuração
+    }
+
+    // limpar o débito de um usuário
+    public function clearDebit(User $user)
+    {
+        $this->authorize('manageDebits', User::class);
+
+        $user->update([
+            'debit' => 0
+        ]);
+
+        return redirect()
+            ->route('users.debts')
+            ->with('success', 'Débito quitado com sucesso.');
+    }
+
 }

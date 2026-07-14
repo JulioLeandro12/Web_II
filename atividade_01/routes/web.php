@@ -40,6 +40,11 @@ Route::post('/books/create-select', [BookController::class, 'storeWithSelect'])-
 // Rotas RESTful para index, show, edit, update, delete (tem que ficar depois das rotas /books/create-id-number e /books/create-select)
 Route::resource('books', BookController::class)->except(['create', 'store']);
 
+// Rota para listar os usuários com débitos
+Route::get('/users/debts', [UserController::class, 'debts'])->name('users.debts');
+
+
+
 Route::resource('users', UserController::class)->except(['create', 'store', 'destroy']); 
 
 // Rota para registrar um empréstimo
@@ -50,3 +55,8 @@ Route::get('/users/{user}/borrowings', [BorrowingController::class, 'userBorrowi
 
 // Rota para registrar a devolução
 Route::patch('/borrowings/{borrowing}/return', [BorrowingController::class, 'returnBook'])->name('borrowings.return');
+
+
+
+// Rota para limpar o débito de um usuário
+Route::put('/users/{user}/clear-debit', [UserController::class, 'clearDebit'])->name('users.clearDebit');

@@ -70,4 +70,10 @@ class UserPolicy
     {
         return $user->isAdmin();
     }
+
+    // Determine whether the user can manage debits of other users.
+    public function manageDebits(User $user): bool
+    {
+        return $user->isAdmin() || $user->isBibliotecario();
+    }
 }
